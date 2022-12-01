@@ -1,4 +1,4 @@
-with open('/workspaces/codespaces-blank/OneDrive/Computer Science/Python/Advent of Code/Day1Input.txt', 'r') as file:
+with open('Day1Input.txt', 'r') as file:
     input = file.readlines()
 
 for index, item in enumerate(input[:]):
