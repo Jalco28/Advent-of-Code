@@ -24,7 +24,7 @@ for item in input:
 biggest_value = max(calories)
 biggest_elf = calories.index(biggest_value)+1
 print(f'The elf with the most calories in elf number {biggest_elf}, they are carrying {biggest_value} calories')
-
+#Part 2
 calories.sort(reverse=True)
 
 top_3_values = calories[0:3]
