@@ -40,10 +40,10 @@ while True:
         #
         if get_pixel_coordinates(cycle_number)[1] in get_sprite_coordinates(x):
             screen[get_pixel_coordinates(cycle_number)[
-                0]][get_pixel_coordinates(cycle_number)[1]] = '#'
+                0]][get_pixel_coordinates(cycle_number)[1]] = '█'
         else:
             screen[get_pixel_coordinates(cycle_number)[
-                0]][get_pixel_coordinates(cycle_number)[1]] = '.'
+                0]][get_pixel_coordinates(cycle_number)[1]] = ' '
         #
         for idx, instruction in enumerate(queue):
             if instruction[1] <= 0:
