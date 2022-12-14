@@ -1,4 +1,4 @@
-with open('Day9TestInput.txt', 'r') as f:
+with open('Day9Input.txt', 'r') as f:
     moves = f.readlines()
 
 moves = [move.strip('\n').split(" ") for move in moves]
@@ -39,52 +39,24 @@ for move in moves:
         do_move(translation[move[0]])
 print(len(visited_places))
 
-# Part 2
-
-
-# def do_move_multiple(direction):
-#     global rope, visited_places
-#     rope[0] = tuple_addition(rope[0], allowed_vectors[direction])
-#     for i in range(len(rope)):
-#         try:
-#             difference = tuple_subtraction(rope[i], rope[i+1])
-#             if difference not in allowed_vectors.values():
-#                 match difference: #logic to check new postion of non-adjacent rope and move accordingly
-#                     case ()
-#         except IndexError:
-#             pass
-#     visited_places.add(rope[-1])
-
-
-# rope = [(0, 0) for i in range(10)]
-# visited_places = {(0, 0)}
-# for move in moves:
-#     for i in range(int(move[1])):
-#         do_move_multiple(translation[move[0]])
-# print(len(visited_places))
-class Knot:
-    def __init__(self):
-        self.pos = (0, 0)
-        last_moved_direction = (0, 0)
-
-    def __repr__(self):
-        return f"Knot at {self.pos}"
-
-    def update_pos(self, direction):
-        difference = tuple_subtraction(self.pos, self.head.pos)
-        if difference not in allowed_vectors.values():
-            pass
-
+#Part 2
+values_map = {-2:-1, -1:-1, 0:0, 1:1, 2:1}
 visited_places = {(0, 0)}
-rope = [Knot() for i in range(10)]
-for idx, knot in enumerate(rope):
-    try:
-        knot.head = rope[idx-1]
-    except IndexError:
-        knot.head = None
-for idx, knot in enumerate(rope):
-    try:
-        knot.tail = rope[idx+1]
-    except IndexError:
-        knot.tail = None
-print()
+rope = [(0,0) for i in range(10)]
+def calculate_tail_pos(head, tail):
+    if tuple_subtraction(head, tail) not in allowed_vectors.values():
+        vector = tuple_subtraction(head, tail)
+        vector = tuple(values_map[value] for value in vector)
+        return tuple_addition(tail, vector)
+    else:
+        return tail
+for move in moves:
+    for i in range(int(move[1])):
+        rope[0] = tuple_addition(rope[0], allowed_vectors[translation[move[0]]])
+        for knot_idx, knot in enumerate(rope):
+            if knot_idx == 0:
+                continue
+            rope[knot_idx] = calculate_tail_pos(rope[knot_idx-1], knot)
+            if knot_idx == 9:
+                visited_places.add(knot)
+print(len(visited_places)+1)
