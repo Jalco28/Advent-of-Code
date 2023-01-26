@@ -1,11 +1,13 @@
+from collections import defaultdict
+
+
 class Valve:
     def __init__(self, name, flow_rate) -> None:
         self.name: str = name
         self.flow_rate = int(flow_rate)
         self.connections: list[Valve] = []
         self.distance = 0
-        self.score = 0
-        self.open = False
+        self.distances = defaultdict(lambda: 0)
 
     def __repr__(self) -> str:
         return f'Valve {self.name}'
@@ -20,8 +22,16 @@ def bfs(root: Valve):
         for connection in current_node.connections:
             if connection not in visited:
                 connection.distance = current_node.distance + 1
+                connection.distances[root.name] = connection.distance
                 queue.append(connection)
                 visited.append(connection)
+
+
+def score(solution: dict):
+    total = 0
+    for valve, time_left in solution.items():
+        total += valves[valve].flow_rate * time_left
+    return total
 
 
 with open("Day16TestInput.txt", 'r') as f:
@@ -37,22 +47,27 @@ for valve in data:
     for connection in connections:
         valves[valve[1]].connections.append(valves[connection])
 
-time_left = 30
-best = valves['AA']
-pressure_released = 0
-while time_left > 0:
-    bfs(best)
-    for valve in valves.values():
-        valve.score = (time_left - (valve.distance+1)) * valve.flow_rate
+for valve in valves.values():
+    bfs(valve)
+good_valves = dict(filter(lambda valve:valve[1].flow_rate > 0, valves.items()))
+stack = [(30, 'AA', {})]
+solutions = []
+# time_left, current node, {open node:time left when opened}
+while stack:
+    state = stack.pop(0)
+    time_left, current, opened = state
+    if time_left < 2:
+        solutions.append((opened))
+        continue
+    for node in good_valves.values():
+        new_time = time_left - 1 - valves[current].distances[node.name]
+        if new_time >= 0 and node.name not in opened.keys():
+            stack.insert(0, (new_time, node.name,opened|{node.name:new_time}))
+        else:
+            solutions.append((opened))
 
-    candidates = [valve for valve in valves.values() if not valve.open]
-    candidates.sort(reverse=True, key=lambda x: x.score)
-    for candidate in candidates:
-        if time_left - (candidate.distance+1) >= 0:
-            best = candidate
-            break
-    best.open = True
-    pressure_released += best.score
-    time_left -= best.distance+1
+print(max((score(solution)) for solution in solutions))
+
+
 
 print()
