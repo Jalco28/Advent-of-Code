@@ -1,5 +1,5 @@
 from collections import defaultdict
-
+from itertools import combinations
 
 class Valve:
     def __init__(self, name, flow_rate) -> None:
@@ -27,7 +27,7 @@ def bfs(root: Valve):
                 visited.append(connection)
 
 
-def score(solution: dict):
+def calculate_score(solution: dict):
     total = 0
     for valve, time_left in solution.items():
         total += valves[valve].flow_rate * time_left
@@ -66,8 +66,23 @@ while stack:
         else:
             solutions.append((opened))
 
-print(max((score(solution)) for solution in solutions))
+print(max((calculate_score(solution)) for solution in solutions))
 
+max_score = defaultdict(int)
+for solution in solutions:
+    opened = frozenset(solution.keys())
+    score = calculate_score(solution)
+    if score > max_score[opened]:
+        max_score[opened] = score
 
+best_score = 0
+for (solution1, score1), (solution2, score2) in combinations(max_score.items(),2):
+    if len(solution1&solution2)==0:
+        continue
 
+    total_score = score1 + score2
+    if total_score > best_score:
+        best_score = total_score
+print(best_score)
+#Change time
 print()
