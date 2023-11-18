@@ -1,5 +1,5 @@
 import sys
-with open('Day1Input.txt', 'r') as f:
+with open('inputs/Day1.txt', 'r') as f:
     nums = [int(num) for num in f]
 
 for num in nums:
@@ -7,7 +7,7 @@ for num in nums:
         print(num*(2020-num))
         break
 
-#Part 2
+# Part 2
 for first in nums:
     for second in nums:
         if 2020-(first+second) in nums:
