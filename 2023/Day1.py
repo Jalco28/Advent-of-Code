@@ -56,6 +56,7 @@ def find_reversed(string, value):
         return idx
     return len(string)-idx-1
 
+
 total = 0
 for line in data:
     indexes = find_written_number_indexes(line)

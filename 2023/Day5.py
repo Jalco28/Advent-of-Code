@@ -79,7 +79,8 @@ class SeedRange:
         return chunk, leftovers
 
 
-unprocessed = [SeedRange(seeds[i], seeds[i+1]) for i in range(0,len(seeds),2)]
+unprocessed = [SeedRange(seeds[i], seeds[i+1])
+               for i in range(0, len(seeds), 2)]
 
 for map in map_rules.values():
     processed = []

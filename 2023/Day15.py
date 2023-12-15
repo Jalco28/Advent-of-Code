@@ -21,7 +21,7 @@ for instruction in data:
 
 print(total)
 
-#Part 2
+# Part 2
 
 boxes = defaultdict(list)
 
@@ -52,4 +52,3 @@ for box_no, box in boxes.items():
         total_fp += fp
 
 print(total_fp)
-

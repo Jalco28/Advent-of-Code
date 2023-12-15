@@ -2,7 +2,7 @@ from copy import copy
 from functools import cmp_to_key
 
 with open('inputs/Day7.txt', 'r') as f:
-# with open('inputs/test.txt', 'r') as f:
+    # with open('inputs/test.txt', 'r') as f:
     data = [line.strip().split() for line in f.readlines()]
 card_bet = dict(data)
 data = [hand[0] for hand in data]
@@ -66,6 +66,7 @@ print(total)
 
 # Part 2
 
+
 def compare_cards_part_2(hand1, hand2):
     "Return 1 for hand1 better, -1 for hand 2 better, 0 for equal"
     hand1o, hand1s = hand1
@@ -81,8 +82,9 @@ def compare_cards_part_2(hand1, hand2):
             return 1 if hand1_char_worth > hand2_char_worth else -1
     return 0
 
+
 # Maximise hand strength
-strong_hands = {}   #Orig card -> strongified hand
+strong_hands = {}  # Orig card -> strongified hand
 for idx, hand in enumerate(data):
     unique_chars = set(hand)
     unique_chars.discard('J')
@@ -102,7 +104,8 @@ for idx, hand in enumerate(data):
     strong_hands[hand] = hand.replace('J', modal_card)
 
 card_char_to_worth['J'] = 1
-sorted_hands = sorted(strong_hands.items(), key=cmp_to_key(compare_cards_part_2))
+sorted_hands = sorted(strong_hands.items(),
+                      key=cmp_to_key(compare_cards_part_2))
 total = 0
 for idx, original_a_strong in enumerate(sorted_hands):
     total += (idx+1)*int(card_bet[original_a_strong[0]])

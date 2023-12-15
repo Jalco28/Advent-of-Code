@@ -19,6 +19,8 @@ for line in data:
 print(total)
 
 # Part 2, Version 1: Takes way too long
+
+
 def number_of_winners(data):
     winners, ours = data.split(' | ')
     winners = set([int(num) for num in winners.split(' ') if num != ''])
@@ -49,6 +51,8 @@ while True:
 print(cards_processed)
 
 # Part 2 Smart: Pretty instant
+
+
 def number_of_winners(data):
     winners, ours = data.split(' | ')
     winners = set([int(num) for num in winners.split(' ') if num != ''])

@@ -50,18 +50,18 @@ height = len(data)
 
 # width=height=3
 
-coords = [] #Full grid of coords
+coords = []  # Full grid of coords
 for row_idx in range(height):
     current = []
     for col_idx in range(width):
         current.append((row_idx, col_idx))
     coords.append(current)
 
-tcoords = []    #Grid of coords rotated clockwise
+tcoords = []  # Grid of coords rotated clockwise
 for col_idx in range(width):
     current = []
     for row_idx in range(height):
-        current.insert(0,coords[row_idx][col_idx])
+        current.insert(0, coords[row_idx][col_idx])
     tcoords.append(current)
 
 
@@ -91,7 +91,8 @@ rounds = frozenset(rounds)
 cubes = frozenset(cubes)
 
 turns_done = 0
-seen_states = {(rounds,turns_done%4):turns_done}    #State -> number of turns
+# State -> number of turns
+seen_states = {(rounds, turns_done % 4): turns_done}
 pushes_todo = 4000000000
 
 while pushes_todo > 0:
@@ -102,13 +103,13 @@ while pushes_todo > 0:
 
     pushes_todo -= 1
 
-    if (rounds, turns_done%4) in seen_states:
-        loop_start = seen_states[(rounds, turns_done%4)]
+    if (rounds, turns_done % 4) in seen_states:
+        loop_start = seen_states[(rounds, turns_done % 4)]
         loop_length = turns_done-loop_start
         loops_left = pushes_todo//loop_length
         pushes_todo -= loops_left*loop_length
         turns_done += loops_left*loop_length
-    seen_states[(rounds, turns_done%4)] = turns_done
+    seen_states[(rounds, turns_done % 4)] = turns_done
 
 max_load = len(data)
 total = 0
