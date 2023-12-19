@@ -48,10 +48,29 @@ def next_coord(current, prev):
 steps = 1
 c1, c2 = graph[start_coord]
 p1 = p2 = start_coord
+cycle = {start_coord}
 while True:
+    cycle.add(c1)
+    cycle.add(c2)
     c1, p1 = next_coord(c1, p1)
     c2, p2 = next_coord(c2, p2)
     steps += 1
     if c1 == c2:
+        cycle.add(c1)
         break
 print(steps)
+
+#Part 2
+area = 0
+for row_idx, row in enumerate(data):
+    inside = False
+    for col_idx, char in enumerate(row):
+        if (row_idx, col_idx) in cycle:
+            if char in '|LJ':
+                inside = not inside
+        elif inside:
+            area += 1
+
+
+print(area)
+print()
