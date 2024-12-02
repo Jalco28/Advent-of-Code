@@ -10,7 +10,7 @@ for a, b in compare:
     total += abs(a-b)
 print(total)
 
-#Part 2
+# Part 2
 similarity = 0
 for item in list1:
     similarity += item*list2.count(item)
